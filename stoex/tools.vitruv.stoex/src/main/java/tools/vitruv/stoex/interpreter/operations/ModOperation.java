@@ -1,0 +1,43 @@
+package tools.vitruv.stoex.interpreter.operations;
+
+/**
+ * This class implements the modulus operation for numeric operands.
+ * 
+ * @author Hammann
+ */
+public class ModOperation {
+
+    public double evaluate(double left, double right) {
+        return left % right;
+    }
+
+    public int evaluate(int left, int right) {
+        return left % right;
+    }
+
+    public Object evaluate(Object left, Object right) {
+        if (left instanceof Integer leftInt && right instanceof Integer rightInt) {
+            return evaluate((int) leftInt, (int) rightInt);
+        }
+
+        return evaluate(toDouble(left), toDouble(right));
+    }
+
+    private double toDouble(Object value) {
+        if (value instanceof Number number) {
+            return number.doubleValue();
+        }
+        if (value instanceof Boolean aBoolean) {
+            return aBoolean ? 1.0 : 0.0;
+        }
+        if (value instanceof String string) {
+            try {
+                return Double.parseDouble(string);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Cannot convert string to double: " + value);
+            }
+        }
+        throw new IllegalArgumentException("Cannot convert " + value + " to double");
+    }
+
+}
