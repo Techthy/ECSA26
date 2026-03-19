@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
+  xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+  xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+  modelDirectory="/tools.vitruv.methodologisttemplate.model/target/generated-sources/ecore"
+  modelPluginID="WebShop" modelName="C1"
+  rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+  importerID="org.eclipse.emf.importer.ecore"
+  complianceLevel="21.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>c1.ecore</foreignModel>
+  <genPackages prefix="C1" disposableProviderFactory="true" ecorePackage="c1.ecore#/">
+    <genClasses ecoreClass="c1.ecore#//C1Repository">
+      <genFeatures property="None" children="true" createChild="true"
+        ecoreFeature="ecore:EReference c1.ecore#//C1Repository/softwareSystems" />
+      <genFeatures property="None" children="true" createChild="true"
+        ecoreFeature="ecore:EReference c1.ecore#//C1Repository/persons" />
+      <genFeatures property="None" children="true" createChild="true"
+        ecoreFeature="ecore:EReference c1.ecore#//C1Repository/references" />
+    </genClasses>
+    <genClasses ecoreClass="c1.ecore#//SoftwareSystem">
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute c1.ecore#//SoftwareSystem/isExternal" />
+    </genClasses>
+    <genClasses ecoreClass="c1.ecore#//Person" />
+    <genClasses ecoreClass="c1.ecore#//Reference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true"
+        ecoreFeature="ecore:EReference c1.ecore#//Reference/reference1" />
+      <genFeatures notify="false" createChild="false" propertySortChoices="true"
+        ecoreFeature="ecore:EReference c1.ecore#//Reference/reference2" />
+    </genClasses>
+    <genClasses ecoreClass="c1.ecore#//C1ModelElement">
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute c1.ecore#//C1ModelElement/name" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute c1.ecore#//C1ModelElement/description" />
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

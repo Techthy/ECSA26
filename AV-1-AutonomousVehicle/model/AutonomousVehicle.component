@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component:ComponentRepository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:component="http://vitruv.tools/component">
+  <components xsi:type="component:System" name="vehicle">
+    <components xsi:type="component:System" name="self-driving-pipeline">
+      <components xsi:type="component:System" name="acquisition">
+        <components xsi:type="component:AtomicComponent" name="camera" type="Physical"/>
+        <components xsi:type="component:AtomicComponent" name="lidar" type="Physical"/>
+        <components xsi:type="component:AtomicComponent" name="dataStorageSchema"/>
+      </components>
+      <components xsi:type="component:System" name="perception" type="Cyber">
+        <components xsi:type="component:AtomicComponent" name="cameraObjectRegcognition"/>
+        <components xsi:type="component:AtomicComponent" name="lidarObjectRecognition"/>
+        <components xsi:type="component:System" name="sensorFusion" type="Cyber"/>
+      </components>
+      <components xsi:type="component:System" name="actuation" type="Physical">
+        <components xsi:type="component:System" name="brakingSystem"/>
+        <components xsi:type="component:System" name="steeringSystem"/>
+        <components xsi:type="component:System" name="throttlingSystem"/>
+      </components>
+    </components>
+  </components>
+</component:ComponentRepository>

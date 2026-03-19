@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- Build Parent -->
+  <parent>
+    <groupId>tools.vitruv</groupId>
+    <artifactId>parent</artifactId>
+    <version>3.3.2</version>
+  </parent>
+
+  <!-- Project Information -->
+  <artifactId>tools.vitruv.methodologisttemplate</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>Methodologist Template</name>
+  <description />
+
+  <!-- Modules -->
+  <modules>
+    <module>viewtype</module>
+    <module>vsum</module>
+    <module>model</module>
+    <module>consistency</module>
+    <module>p2-wrapper</module>
+  </modules>
+
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.openntf.maven</groupId>
+        <artifactId>p2-layout-resolver</artifactId>
+        <version>1.9.0</version>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+  <properties>
+    <vitruv.version>3.2.3</vitruv.version>
+    <!-- p2 updatesite versions -->
+    <repo.sdq-demo-metamodels.version>1.9.0</repo.sdq-demo-metamodels.version>
+    <repo.sdq-commons.version>2.2.0</repo.sdq-commons.version>
+    <repo.xannotations.version>1.6.0</repo.xannotations.version>
+    <repo.emftext-jamopp.version>latest</repo.emftext-jamopp.version> <!-- should be 1.0.0 -->
+    <repo.palladio.version>5.0.0</repo.palladio.version>
+    <repo.eclipse.version>2023-03</repo.eclipse.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <name>Maven Central</name>
+      <url>https://repo1.maven.org/maven2/</url>
+    </repository>
+    <!-- allow snapshots -->
+    <repository>
+      <id>ossrh-snapshots</id>
+      <name>OSSRH Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+
+    <repository>
+      <id>sdq-demo-metamodels</id>
+      <name>SDQ Demo Metamodels</name>
+      <url>https://kit-sdq.github.io/updatesite/release/metamodels/demo/${repo.sdq-demo-metamodels.version}</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>sdq-commons</id>
+      <name>SDQ Commons</name>
+      <url>https://kit-sdq.github.io/updatesite/release/commons/${repo.sdq-commons.version}</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>xannotations</id>
+      <name>XAnnotations</name>
+      <layout>p2</layout>
+      <url>https://kit-sdq.github.io/updatesite/release/xannotations/${repo.xannotations.version}</url>
+    </repository>
+    <repository>
+      <id>emftext-jamopp</id>
+      <name>EMFText and JaMoPP (P2 Wrapper)</name>
+      <layout>p2</layout>
+      <url>https://kit-sdq.github.io/updatesite/release/p2-wrapper/${repo.emftext-jamopp.version}/</url>
+    </repository>
+    <repository>
+      <id>palladio</id>
+      <name>Palladio Simulator</name>
+      <layout>p2</layout>
+      <url>https://updatesite.palladio-simulator.com/palladio-build-updatesite/releases/${repo.palladio.version}/</url>
+    </repository>
+    <repository>
+      <id>eclipse</id>
+      <name>Eclipse</name>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/releases/${repo.eclipse.version}</url>
+    </repository>
+  </repositories>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- Vitruvius dependencies -->
+      <dependency>
+        <groupId>tools.vitruv</groupId>
+        <artifactId>tools.vitruv.change.atomic</artifactId>
+        <version>${vitruv.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>tools.vitruv</groupId>
+        <artifactId>tools.vitruv.change.composite</artifactId>
+        <version>${vitruv.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>tools.vitruv</groupId>
+        <artifactId>tools.vitruv.change.interaction</artifactId>
+        <version>${vitruv.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>tools.vitruv</groupId>
+        <artifactId>tools.vitruv.change.propagation</artifactId>
+        <version>${vitruv.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>tools.vitruv</groupId>
+        <artifactId>tools.vitruv.change.testutils.integration</artifactId>
+        <version>${vitruv.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>tools.vitruv</groupId>
+        <artifactId>tools.vitruv.dsls.reactions.runtime</artifactId>
+        <version>${vitruv.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>tools.vitruv</groupId>
+        <artifactId>tools.vitruv.framework.views</artifactId>
+        <version>${vitruv.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>tools.vitruv</groupId>
+        <artifactId>tools.vitruv.framework.vsum</artifactId>
+        <version>${vitruv.version}</version>
+      </dependency>
+
+      <!-- external dependencies-->
+      <dependency>
+        <groupId>org.eclipse.emf</groupId>
+        <artifactId>org.eclipse.emf.common</artifactId>
+        <version>2.44.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.emf</groupId>
+        <artifactId>org.eclipse.emf.ecore</artifactId>
+        <version>2.41.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>6.0.1</version>
+      </dependency>
+      <dependency>
+        <groupId>palladio</groupId>
+        <artifactId>org.palladiosimulator.pcm</artifactId>
+        <version>5.0.0.202102051710</version>
+      </dependency>
+      <dependency>
+        <groupId>palladio</groupId>
+        <artifactId>org.palladiosimulator.pcm.resources</artifactId>
+        <version>5.0.0.202102051710</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <pluginRepositories>
+    <!-- Maven Central should have priority -->
+    <pluginRepository>
+      <id>central</id>
+      <name>Maven Central</name>
+      <url>https://repo1.maven.org/maven2/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+    <!-- allow snapshots in plugin dependencies -->
+    <pluginRepository>
+      <id>ossrh-snapshots</id>
+      <name>OSSRH Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </pluginRepository>
+
+    <!-- required for the p2-layout-resolver plugin -->
+    <pluginRepository>
+      <id>artifactory.openntf.org</id>
+      <name>artifactory.openntf.org</name>
+      <url>https://artifactory.openntf.org/openntf</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+
+
+</project>

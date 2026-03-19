@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+
+<plugin>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated uncertainty -->
+      <package
+            uri="http://www.example.org/uncertainty"
+            class="uncertainty.UncertaintyPackage"
+            genModel="src/main/ecore/uncertainty.genmodel"/>
+   </extension>
+
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated c2 -->
+      <package
+            uri="http://vitruv.tools/c2"
+            class="c2.C2Package"
+            genModel="src/main/ecore/c2.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ticket -->
+      <package
+            uri="http://vitruv.tools/ticket"
+            class="ticket.TicketPackage"
+            genModel="src/main/ecore/ticket.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated architectureDecisionRecord -->
+      <package
+            uri="http://vitruv.tools/architectureDecisionRecord"
+            class="architectureDecisionRecord.ArchitectureDecisionRecordPackage"
+            genModel="src/main/ecore/architectureDecisionRecord.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated c1 -->
+      <package
+            uri="http://vitruv.tools/c1"
+            class="c1.C1Package"
+            genModel="src/main/ecore/c1.genmodel"/>
+   </extension>
+
+</plugin>

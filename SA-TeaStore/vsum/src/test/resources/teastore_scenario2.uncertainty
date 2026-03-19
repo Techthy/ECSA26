@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uncertainty:UncertaintyAnnotationRepository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:uncertainty="http://www.example.org/uncertainty">
+  <uncertainties reducability="PartiallyReducible" nature="Epistemic" setManually="true" id="U-8245">
+    <uncertaintyLocation specification="Uncertain additional request rate from the PermissionsMiddleware to the AuthService (req/s) after introducing Alternative 1.">
+      <referencedComponents href="teastore_scenario2.architecturedecisionrecord#//@adIssues.0/@isSolvedBy.0"/>
+    </uncertaintyLocation>
+    <effect specification="Higher-than-expected call rates increase AuthService utilization and latency, possibly leading to queuing delays."/>
+    <pattern patternType="Random"/>
+    <perspective specification="Software architect’s estimation of request rates based on expected employee usage and existing traffic."/>
+    <source source="ENVIRONMENT" specification="Workload characteristics caused by concurrent internal (employees) and external (customers) users."/>
+  </uncertainties>
+  <uncertainties reducability="PartiallyReducible" nature="Epistemic" setManually="true" id="U-8246">
+    <uncertaintyLocation specification="Uncertain effective processing capacity of AuthService under the new authorization design.">
+      <referencedComponents href="teastore_scenario2.architecturedecisionrecord#//@adIssues.0/@isSolvedBy.2"/>
+    </uncertaintyLocation>
+    <effect specification="Uncertain effective processing capacity of AuthService under the new authorization design."/>
+    <pattern patternType="Persistent"/>
+    <perspective specification="Architect and performance engineer estimate AuthService capacity based on limited measurements and hardware specs."/>
+    <source source="RESOURCES" specification="Compute resources and configuration of AuthService instances (CPU, threads, connection pools)."/>
+  </uncertainties>
+  <uncertainties reducability="PartiallyReducible" nature="Epistemic" id="U-8247">
+    <uncertaintyLocation specification="Uncertain whether AuthService becomes a performance bottleneck or critical single point of failure after introducing the PermissionsMiddleware.">
+      <referencedComponents href="teastore_scenario2.architecturedecisionrecord#//@adIssues.0/@isSolvedBy.1"/>
+    </uncertaintyLocation>
+    <effect representation="Discrete" specification="System may either operate within acceptable limits or exhibit degraded throughput and availability due to AuthService saturation."/>
+    <pattern patternType="Sporadic"/>
+    <perspective specification="Architecture-level risk assessment regarding future performance behavior under load."/>
+    <source specification="Simplifications and assumptions in performance and architecture models regarding AuthService behavior."/>
+  </uncertainties>
+</uncertainty:UncertaintyAnnotationRepository>

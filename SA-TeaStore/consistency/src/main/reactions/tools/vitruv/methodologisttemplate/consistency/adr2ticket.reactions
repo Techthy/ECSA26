@@ -1,0 +1,47 @@
+import tools.vitruv.methodologisttemplate.consistency.RootObjectCorrespondenceHelper;
+
+
+import "http://vitruv.tools/architectureDecisionRecord" as architectureDecisionRecordModel
+import "http://vitruv.tools/ticket" as ticketSystemModel
+
+
+
+reactions: adr2ticket
+in reaction to changes in architectureDecisionRecordModel
+execute actions in ticketSystemModel
+
+
+reaction ADRepoInsertedAsRoot {
+    after element architectureDecisionRecordModel::ADRRepository inserted as root
+    call addCorrespondenceBetweenADRepoAndTicketRepo(newValue)
+}
+
+routine addCorrespondenceBetweenADRepoAndTicketRepo(architectureDecisionRecordModel::ADRRepository ADRrepo) {
+    update {
+        var ticketRepo = RootObjectCorrespondenceHelper.getTicketRepositoryFromRessourceSet(ADRrepo);
+        if (ticketRepo === null) {
+            System.out.println("[REACTION] No Ticket Repository found for ADR Repository.");
+            return;
+        }
+        addCorrespondenceBetween(ADRrepo, ticketRepo);
+    }
+}
+
+
+//
+// WHEN ADIssue added to ADRRepository,
+// THEN add correspondence between the ADR Issue and the ticket it is refering to
+//
+reaction ADDesignElementReferencedObjectChanged {
+    after element architectureDecisionRecordModel::ADIssue inserted in architectureDecisionRecordModel::ADRRepository[adIssues]
+    call addCorrespondenceBetweenADAlternativeAndEObject(affectedEObject, newValue)
+}
+
+routine addCorrespondenceBetweenADAlternativeAndEObject(architectureDecisionRecordModel::ADRRepository ADRrepo, architectureDecisionRecordModel::ADIssue adIssue) {
+    match {
+        val ticketRepo = retrieve ticketSystemModel::TicketRepository corresponding to ADRrepo
+    }
+    update {
+        addCorrespondenceBetween(adIssue, ticketRepo.getTickets().findFirst(t | t.getId() == adIssue.getTicketID()));
+    }
+}

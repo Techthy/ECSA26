@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="component"
+  nsURI="http://vitruv.tools/component" nsPrefix="component">
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentRepository">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+      eType="#//Component" containment="true" />
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Component">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="developmentPhase"
+      eType="#//DevelopmentPhase" />
+    <eStructuralFeatures xsi:type="ecore:EReference" name="autonomy" eType="#//Autonomy" />
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name"
+      eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DevelopmentPhase">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="phase" eType="#//DevelopmentPhaseType" />
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Autonomy">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="autonomy" eType="#//AutonomyType" />
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AtomicComponent" eSuperTypes="#//Component">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//AtomicComponentType" />
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="System" eSuperTypes="#//Component">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//CompositeType" />
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+      eType="#//Component" containment="true" />
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DevelopmentPhaseType">
+    <eLiterals name="RequirementLevel" />
+    <eLiterals name="DesignTimeLevel" value="1" />
+    <eLiterals name="RunTimeLevel" value="2" />
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AutonomyType">
+    <eLiterals name="Autonomous" />
+    <eLiterals name="NonAutonomous" value="1" />
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AtomicComponentType">
+    <eLiterals name="Cyber" />
+    <eLiterals name="Physical" value="1" />
+    <eLiterals name="Electrical" value="2" />
+    <eLiterals name="Hydraulic" value="3" />
+    <eLiterals name="Mechanical" value="4" />
+    <eLiterals name="Thermal" value="5" />
+    <eLiterals name="Electromagnetic" value="6" />
+    <eLiterals name="Platform" value="7" />
+    <eLiterals name="Model" value="8" />
+    <eLiterals name="MachineLearningModel" value="9" />
+    <eLiterals name="MathematicalModel" value="10" />
+    <eLiterals name="SoftwareArchitectureModel" value="11" />
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CompositeType">
+    <eLiterals name="CyberPhysical" />
+    <eLiterals name="Cyber" value="1" />
+    <eLiterals name="Physical" value="2" />
+  </eClassifiers>
+</ecore:EPackage>

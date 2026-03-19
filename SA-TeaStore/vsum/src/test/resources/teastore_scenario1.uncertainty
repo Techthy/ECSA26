@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uncertainty:UncertaintyAnnotationRepository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
+  xmlns:uncertainty="http://www.example.org/uncertainty">
+  <uncertainties reducability="PartiallyReducible" nature="Epistemic" setManually="true" id="U-5644">
+    <uncertaintyLocation
+      specification="Uncertainty about the combined load on, and required capacity of, the shared Redis cache when it is reused for both token and product data. This includes uncertainty about request rate, working-set size, and resulting hit ratio."
+      parameterLocation="Capacity">
+      <referencedComponents
+        href="teastore_scenario1.architecturedecisionrecord#//@adIssues.0/@isSolvedBy.0" />
+    </uncertaintyLocation>
+    <effect
+      specification="If the actual combined workload and required working-set size exceed the available cache capacity, cache evictions and misses increase. This leads to higher latency for product requests and elevated load on application servers." />
+    <pattern patternType="Persistent" />
+    <perspective
+      specification="The uncertainty is recorded from the Software Architect’s perspective and later interpreted by the Performance Engineer when designing and executing simulations." />
+    <source source="RESOURCES"
+      specification="The uncertainty originates from limited knowledge about the resource configuration of the Redis instance (memory size, eviction policy) and its interaction with unknown future workloads." />
+  </uncertainties>
+  <history />
+</uncertainty:UncertaintyAnnotationRepository>

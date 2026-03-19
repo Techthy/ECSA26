@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
+  xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+  xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/ComponentModel/src"
+  modelPluginID="ComponentModel"
+  modelName="Component" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+  importerID="org.eclipse.emf.importer.ecore" complianceLevel="21.0" copyrightFields="false"
+  operationReflection="true" importOrganizing="true">
+  <foreignModel>component.ecore</foreignModel>
+  <genPackages prefix="Component" disposableProviderFactory="true" ecorePackage="component.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="component.ecore#//DevelopmentPhaseType">
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//DevelopmentPhaseType/RequirementLevel" />
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//DevelopmentPhaseType/DesignTimeLevel" />
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//DevelopmentPhaseType/RunTimeLevel" />
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="component.ecore#//AutonomyType">
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//AutonomyType/Autonomous" />
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//AutonomyType/NonAutonomous" />
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="component.ecore#//AtomicComponentType">
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//AtomicComponentType/Cyber" />
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//AtomicComponentType/Physical" />
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//AtomicComponentType/Electrical" />
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//AtomicComponentType/Hydraulic" />
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//AtomicComponentType/Mechanical" />
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//AtomicComponentType/Thermal" />
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//AtomicComponentType/Electromagnetic" />
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//AtomicComponentType/Platform" />
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//AtomicComponentType/Model" />
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//AtomicComponentType/MachineLearningModel" />
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//AtomicComponentType/MathematicalModel" />
+      <genEnumLiterals
+        ecoreEnumLiteral="component.ecore#//AtomicComponentType/SoftwareArchitectureModel" />
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="component.ecore#//CompositeType">
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//CompositeType/CyberPhysical" />
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//CompositeType/Cyber" />
+      <genEnumLiterals ecoreEnumLiteral="component.ecore#//CompositeType/Physical" />
+    </genEnums>
+    <genClasses ecoreClass="component.ecore#//ComponentRepository">
+      <genFeatures property="None" children="true" createChild="true"
+        ecoreFeature="ecore:EReference component.ecore#//ComponentRepository/components" />
+    </genClasses>
+    <genClasses ecoreClass="component.ecore#//Component">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true"
+        ecoreFeature="ecore:EReference component.ecore#//Component/developmentPhase" />
+      <genFeatures notify="false" createChild="false" propertySortChoices="true"
+        ecoreFeature="ecore:EReference component.ecore#//Component/autonomy" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute component.ecore#//Component/name" />
+    </genClasses>
+    <genClasses ecoreClass="component.ecore#//DevelopmentPhase">
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute component.ecore#//DevelopmentPhase/phase" />
+    </genClasses>
+    <genClasses ecoreClass="component.ecore#//Autonomy">
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute component.ecore#//Autonomy/autonomy" />
+    </genClasses>
+    <genClasses ecoreClass="component.ecore#//AtomicComponent">
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute component.ecore#//AtomicComponent/type" />
+    </genClasses>
+    <genClasses ecoreClass="component.ecore#//System">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute component.ecore#//System/type" />
+      <genFeatures property="None" children="true" createChild="true"
+        ecoreFeature="ecore:EReference component.ecore#//System/components" />
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

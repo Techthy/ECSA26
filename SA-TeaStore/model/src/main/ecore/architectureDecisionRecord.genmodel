@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
+  xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+  xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+  modelDirectory="/tools.vitruv.methodologisttemplate.model/target/generated-sources/ecore"
+  modelPluginID="WebShop" modelName="ArchitectureDecisionRecord"
+  rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+  importerID="org.eclipse.emf.importer.ecore"
+  complianceLevel="21.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>architectureDecisionRecord.ecore</foreignModel>
+  <genPackages prefix="ArchitectureDecisionRecord" disposableProviderFactory="true"
+    ecorePackage="architectureDecisionRecord.ecore#/">
+    <genEnums typeSafeEnumCompatible="false"
+      ecoreEnum="architectureDecisionRecord.ecore#//ADDesignElementType">
+      <genEnumLiterals
+        ecoreEnumLiteral="architectureDecisionRecord.ecore#//ADDesignElementType/MICROSERVICE" />
+      <genEnumLiterals
+        ecoreEnumLiteral="architectureDecisionRecord.ecore#//ADDesignElementType/SERVICE_API" />
+      <genEnumLiterals
+        ecoreEnumLiteral="architectureDecisionRecord.ecore#//ADDesignElementType/PACKAGE" />
+      <genEnumLiterals
+        ecoreEnumLiteral="architectureDecisionRecord.ecore#//ADDesignElementType/MODULE" />
+      <genEnumLiterals
+        ecoreEnumLiteral="architectureDecisionRecord.ecore#//ADDesignElementType/CLASS" />
+      <genEnumLiterals
+        ecoreEnumLiteral="architectureDecisionRecord.ecore#//ADDesignElementType/INTERFACE" />
+      <genEnumLiterals
+        ecoreEnumLiteral="architectureDecisionRecord.ecore#//ADDesignElementType/ENUM" />
+      <genEnumLiterals
+        ecoreEnumLiteral="architectureDecisionRecord.ecore#//ADDesignElementType/METHOD" />
+      <genEnumLiterals
+        ecoreEnumLiteral="architectureDecisionRecord.ecore#//ADDesignElementType/FIELD" />
+      <genEnumLiterals
+        ecoreEnumLiteral="architectureDecisionRecord.ecore#//ADDesignElementType/DATABASE_TABLE" />
+      <genEnumLiterals
+        ecoreEnumLiteral="architectureDecisionRecord.ecore#//ADDesignElementType/DATABASE_COLUMN" />
+      <genEnumLiterals
+        ecoreEnumLiteral="architectureDecisionRecord.ecore#//ADDesignElementType/CONFIGURATION_ITEM" />
+      <genEnumLiterals
+        ecoreEnumLiteral="architectureDecisionRecord.ecore#//ADDesignElementType/DEPLOYMENT_NODE" />
+      <genEnumLiterals
+        ecoreEnumLiteral="architectureDecisionRecord.ecore#//ADDesignElementType/OTHER" />
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false"
+      ecoreEnum="architectureDecisionRecord.ecore#//DecisionStatus">
+      <genEnumLiterals ecoreEnumLiteral="architectureDecisionRecord.ecore#//DecisionStatus/PROPOSED" />
+      <genEnumLiterals ecoreEnumLiteral="architectureDecisionRecord.ecore#//DecisionStatus/ACCEPTED" />
+      <genEnumLiterals ecoreEnumLiteral="architectureDecisionRecord.ecore#//DecisionStatus/REJECTED" />
+      <genEnumLiterals
+        ecoreEnumLiteral="architectureDecisionRecord.ecore#//DecisionStatus/DEPRECATED" />
+      <genEnumLiterals
+        ecoreEnumLiteral="architectureDecisionRecord.ecore#//DecisionStatus/SUPERSEDED" />
+      <genEnumLiterals ecoreEnumLiteral="architectureDecisionRecord.ecore#//DecisionStatus/OBSOLETE" />
+    </genEnums>
+    <genClasses ecoreClass="architectureDecisionRecord.ecore#//ADRRepository">
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADRRepository/name" />
+      <genFeatures notify="false" createChild="false" propertySortChoices="true"
+        ecoreFeature="ecore:EReference architectureDecisionRecord.ecore#//ADRRepository/adIssues" />
+    </genClasses>
+    <genClasses ecoreClass="architectureDecisionRecord.ecore#//ADIssue">
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADIssue/name" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADIssue/shortName" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADIssue/id" />
+      <genFeatures notify="false" createChild="false" propertySortChoices="true"
+        ecoreFeature="ecore:EReference architectureDecisionRecord.ecore#//ADIssue/role" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADIssue/motivation" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADIssue/recommendation" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADIssue/backgroundReading" />
+      <genFeatures property="None" children="true" createChild="true"
+        ecoreFeature="ecore:EReference architectureDecisionRecord.ecore#//ADIssue/isSolvedBy" />
+      <genFeatures notify="false" createChild="false" propertySortChoices="true"
+        ecoreFeature="ecore:EReference architectureDecisionRecord.ecore#//ADIssue/hasOutcome" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADIssue/scope" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADIssue/ticketID" />
+    </genClasses>
+    <genClasses ecoreClass="architectureDecisionRecord.ecore#//Role">
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//Role/name" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//Role/id" />
+    </genClasses>
+    <genClasses ecoreClass="architectureDecisionRecord.ecore#//ADAlternative">
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADAlternative/name" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADAlternative/description" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADAlternative/pros" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADAlternative/cons" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADAlternative/knownUses" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADAlternative/backgroundReading" />
+      <genFeatures notify="false" createChild="false" propertySortChoices="true"
+        ecoreFeature="ecore:EReference architectureDecisionRecord.ecore#//ADAlternative/impacts" />
+    </genClasses>
+    <genClasses ecoreClass="architectureDecisionRecord.ecore#//ADOutcome">
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADOutcome/name" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADOutcome/status" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADOutcome/justification" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADOutcome/assumptions" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADOutcome/consequences" />
+      <genFeatures notify="false" createChild="false" propertySortChoices="true"
+        ecoreFeature="ecore:EReference architectureDecisionRecord.ecore#//ADOutcome/chooses" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADOutcome/decisionStatus" />
+    </genClasses>
+    <genClasses ecoreClass="architectureDecisionRecord.ecore#//ADDesignElement">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true"
+        ecoreFeature="ecore:EReference architectureDecisionRecord.ecore#//ADDesignElement/referencedObject" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADDesignElement/referencedQualifiedName" />
+      <genFeatures createChild="false"
+        ecoreFeature="ecore:EAttribute architectureDecisionRecord.ecore#//ADDesignElement/additionalInformation" />
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

@@ -1,0 +1,289 @@
+
+import java.io.File;
+
+import tools.vitruv.methodologisttemplate.consistency.UncertaintyReactionsHelper;
+import tools.vitruv.methodologisttemplate.consistency.RootObjectCorrespondenceHelper;
+
+
+import uncertainty.UncertaintyAnnotationRepository;
+import uncertainty.Uncertainty;
+import uncertainty.OnDeleteMode;
+
+
+import "http://www.example.org/uncertainty" as uncertaintyModel
+import "http://vitruv.tools/c1" as c1Model
+import "http://vitruv.tools/c2" as c2Model
+import "http://vitruv.tools/ticket" as ticketModel
+import "http://vitruv.tools/architectureDecisionRecord" as architectureDecisionRecordModel
+import "http://palladiosimulator.org/PalladioComponentModel/Repository/5.2" as pcmRepositoryModel
+
+
+
+reactions: uncertainty2uncertainty
+in reaction to changes in uncertaintyModel
+execute actions in uncertaintyModel
+
+reaction UncertaintyInsertedAsRoot {
+    after element uncertaintyModel::UncertaintyAnnotationRepository inserted as root
+    call createAndRegisterRoots(newValue)
+}
+
+
+routine createAndRegisterRoots(uncertaintyModel::UncertaintyAnnotationRepository repo) {
+    match {
+        require absence of c1Model::C1Repository corresponding to repo
+        require absence of c2Model::C2Repository corresponding to repo
+        require absence of ticketModel::TicketRepository corresponding to repo
+        require absence of architectureDecisionRecordModel::ADRRepository corresponding to repo
+        require absence of pcmRepositoryModel::Repository corresponding to repo
+
+    }
+    create {
+        val mC1Repo = new c1Model::C1Repository
+        val mC2Repo = new c2Model::C2Repository
+        val mTicketRepo = new ticketModel::TicketRepository
+        val mADRRepo = new architectureDecisionRecordModel::ADRRepository
+        val mPCMRepo = new pcmRepositoryModel::Repository   
+    }
+    update {
+        persistProjectRelative(repo, mADRRepo, new File("").toString() + "example.adr")
+        addCorrespondenceBetween(repo, mADRRepo)
+        persistProjectRelative(repo, mC1Repo, new File("").toString() + "example.c1")
+        addCorrespondenceBetween(repo, mC1Repo)
+        persistProjectRelative(repo, mC2Repo, new File("").toString() + "example.c2")
+        addCorrespondenceBetween(repo, mC2Repo)
+        persistProjectRelative(repo, mTicketRepo, new File("").toString() + "example.ticket")
+        addCorrespondenceBetween(repo, mTicketRepo)
+        addCorrespondenceBetween(mTicketRepo, mADRRepo);
+        persistProjectRelative(repo, mPCMRepo, new File("").toString() + "example.pcm")
+        addCorrespondenceBetween(repo, mPCMRepo)
+        addCorrespondenceBetween(mC2Repo, mPCMRepo);
+    }
+}
+
+
+
+reaction ReferenceInsertedIntoUncertaintyLocation {
+    after element EObject inserted in uncertaintyModel::UncertaintyLocation[referencedComponents]
+    call createCorrespondingUncertaintiesToReference(affectedEObject.eContainer() as Uncertainty, newValue)
+}
+
+
+routine createCorrespondingUncertaintiesToReference(uncertaintyModel::Uncertainty sourceUncertainty, EObject referencedElement) {
+    match {
+        val correspondingReferenceList = retrieve many EObject corresponding to referencedElement
+    }
+    update {
+        val uncertainties = UncertaintyReactionsHelper.createMissingUncertaintiesForReferencedComponents(
+            sourceUncertainty.eContainer() as UncertaintyAnnotationRepository, correspondingReferenceList, sourceUncertainty);
+        for (uncertainty : uncertainties) {
+            addCorrespondenceBetween(sourceUncertainty, uncertainty);
+        }
+    }   
+}
+
+
+reaction UncertaintyDeleted {
+    after element uncertaintyModel::Uncertainty deleted
+    call deleteCorrespondingUncertainties(affectedEObject)
+}
+
+routine deleteCorrespondingUncertainties(uncertaintyModel::Uncertainty sourceUncertainty) {
+    match {
+        val uncertaintiesList = retrieve many uncertaintyModel::Uncertainty corresponding to sourceUncertainty
+    }
+    create {
+        val mHistoryEntry = new uncertaintyModel::UncertaintyHistoryEntry
+    }
+    update {
+        val repo = RootObjectCorrespondenceHelper.getUncertaintyAnnotationRepositoryFromRessourceSet(sourceUncertainty.getUncertaintyLocation().getReferencedComponents().get(0));
+
+        // If there are no corresponding uncertainties: deletion of sourceUncertainty is allowed and no further action is needed
+        if (uncertaintiesList.isEmpty()) {
+                val copiedSourceUncertainty = UncertaintyReactionsHelper.deepCopyUncertainty(sourceUncertainty);
+                mHistoryEntry.setUncertainty(copiedSourceUncertainty);
+                repo.getHistory().getEntries().add(mHistoryEntry);
+                return;
+        } 
+
+
+        // DELETE MODE: No Action
+        if (sourceUncertainty.getOnDelete() === OnDeleteMode.NO_ACTION) {
+            // No further uncertainties are deleted
+            return;
+        }
+
+        // DELETE MODE: Restrict
+        if (sourceUncertainty.getOnDelete() === OnDeleteMode.RESTRICT) {
+            // readd the sourceUncertainty (as it is protected and there are corresponding references see above) 
+
+            var allCorrespondingUncertaintiesManuallySet = true;
+            for (correspondingUncertainty : uncertaintiesList) {
+                if (!correspondingUncertainty.isSetManually()) {
+                    allCorrespondingUncertaintiesManuallySet = false;
+                }
+            }
+            
+            if (allCorrespondingUncertaintiesManuallySet) {
+                // If all corresponding uncertainties are set manually, no further action is taken
+                return;
+            }
+
+            // Since there must be at least one corresponding uncertainty we get the AnnotationRepository from this uncertainty b/c the reference of the sourceUncertainty is already unset
+            val annotationRepository = uncertaintiesList.get(0).eContainer() as UncertaintyAnnotationRepository;
+            annotationRepository.getUncertainties().add(sourceUncertainty);
+            // restore correspondence
+            for (correspondingUncertainty : uncertaintiesList) {
+                addCorrespondenceBetween(sourceUncertainty, correspondingUncertainty);
+            }
+            // Mode is RESTRICT and there are corresponding uncertainties that are not manually set -> deletion is not allowed
+            return;
+        }
+
+        // DELETE MODE: Cascade (default)
+
+
+        for (correspondingUncertainty : uncertaintiesList) {
+            if (!correspondingUncertainty.isSetManually()) {
+                removeObject(correspondingUncertainty);
+                removeCorrespondenceBetween(sourceUncertainty, correspondingUncertainty);
+            }
+        }
+        val copiedSourceUncertainty = UncertaintyReactionsHelper.deepCopyUncertainty(sourceUncertainty);
+        mHistoryEntry.setUncertainty(copiedSourceUncertainty);
+        repo.getHistory().getEntries().add(mHistoryEntry);
+    }
+}
+
+reaction UncertaintyKindChanged {
+    after attribute replaced at uncertaintyModel::Uncertainty[kind] 
+    call updateUncertainties(affectedEObject)
+}
+
+reaction UncertaintyReducabilityChanged {
+    after attribute replaced at uncertaintyModel::Uncertainty[reducability] 
+    call updateUncertainties(affectedEObject)
+}
+reaction UncertaintyNatureChanged {
+    after attribute replaced at uncertaintyModel::Uncertainty[nature] 
+    call updateUncertainties(affectedEObject)
+}
+
+reaction UncertaintyOnDeleteChanged {
+    after attribute replaced at uncertaintyModel::Uncertainty[onDelete] 
+    call updateUncertainties(affectedEObject)
+}
+
+
+
+routine updateUncertainties(uncertaintyModel::Uncertainty sourceUncertainty){
+    match {
+        val uncertaintiesList = retrieve many uncertaintyModel::Uncertainty corresponding to sourceUncertainty
+    }
+    update {
+        // Update all corresponding uncertainties with the new values from the sourceUncertainty
+        for (correspondingUncertainty : uncertaintiesList) {
+            // Other values have not changed but can be safely overwritten as they should be the same (CPR)
+            correspondingUncertainty.setKind(sourceUncertainty.getKind());
+            correspondingUncertainty.setReducability(sourceUncertainty.getReducability());
+            correspondingUncertainty.setNature(sourceUncertainty.getNature());
+            correspondingUncertainty.setOnDelete(sourceUncertainty.getOnDelete());
+        }
+    }
+}
+
+reaction PatternTypeChanged {
+    after attribute replaced at uncertaintyModel::Pattern[patternType] 
+    call patternTypeChangedRoutine(affectedEObject, affectedEObject.eContainer() as Uncertainty)
+}
+
+
+routine patternTypeChangedRoutine(uncertaintyModel::Pattern pattern, uncertaintyModel::Uncertainty sourceUncertainty) {
+    match {
+        val uncertaintiesList = retrieve many uncertaintyModel::Uncertainty corresponding to sourceUncertainty
+    }
+    update {
+        // Update all corresponding uncertainties with the new values from the sourceUncertainty
+        for (correspondingUncertainty : uncertaintiesList) {
+            correspondingUncertainty.getPattern().setPatternType(sourceUncertainty.getPattern().getPatternType());
+        }
+    }
+}
+
+reaction UncertainyPerspectiveChanged {
+    after attribute replaced at uncertaintyModel::UncertaintyPerspective[perspective] 
+    call perspectiveChangedRoutine(affectedEObject, affectedEObject.eContainer() as Uncertainty)
+}
+
+reaction UncertaintySpecificationChanged {
+    after attribute replaced at uncertaintyModel::UncertaintyPerspective[specification] 
+    call perspectiveChangedRoutine(affectedEObject, affectedEObject.eContainer() as Uncertainty)
+}
+
+routine perspectiveChangedRoutine(uncertaintyModel::UncertaintyPerspective perspective, uncertaintyModel::Uncertainty sourceUncertainty) {
+    match {
+        val uncertaintiesList = retrieve many uncertaintyModel::Uncertainty corresponding to sourceUncertainty
+    }
+    update {
+        // Update all corresponding uncertainties with the new values from the sourceUncertainty
+        for (correspondingUncertainty : uncertaintiesList) {
+            correspondingUncertainty.getPerspective().setPerspective(sourceUncertainty.getPerspective().getPerspective());
+            correspondingUncertainty.getPerspective().setSpecification(sourceUncertainty.getPerspective().getSpecification());
+        }
+    }
+}
+
+reaction UncertaintyEffectSpecificationChanged {
+    after attribute replaced at uncertaintyModel::Effect[specification] 
+    call effectChangedRoutine(affectedEObject, affectedEObject.eContainer() as Uncertainty)
+}
+
+reaction UncertaintyEffectRepresentationChanged {
+    after attribute replaced at uncertaintyModel::Effect[representation] 
+    call effectChangedRoutine(affectedEObject, affectedEObject.eContainer() as Uncertainty)
+}
+
+reaction UncertaintyEffectStochasticityChanged {
+    after attribute replaced at uncertaintyModel::Effect[stochasticity] 
+    call effectChangedRoutine(affectedEObject, affectedEObject.eContainer() as Uncertainty)
+}
+
+routine effectChangedRoutine(uncertaintyModel::Effect effect, uncertaintyModel::Uncertainty sourceUncertainty) {
+    match {
+        val uncertaintiesList = retrieve many uncertaintyModel::Uncertainty corresponding to sourceUncertainty
+    }
+    update {
+        // Update all corresponding uncertainties with the new values from the sourceUncertainty
+        for (correspondingUncertainty : uncertaintiesList) {
+            correspondingUncertainty.getEffect().setSpecification(sourceUncertainty.getEffect().getSpecification());
+            correspondingUncertainty.getEffect().setRepresentation(sourceUncertainty.getEffect().getRepresentation());
+            correspondingUncertainty.getEffect().setStochasticity(sourceUncertainty.getEffect().getStochasticity());
+        }
+    }
+}
+
+reaction UncertaintyLocationSpecificationChanged {
+    after attribute replaced at uncertaintyModel::UncertaintyLocation[specification] 
+    call locationChangedRoutine(affectedEObject, affectedEObject.eContainer() as Uncertainty)
+}
+
+reaction UncertaintyLocationLocationChanged {
+    after attribute replaced at uncertaintyModel::UncertaintyLocation[location] 
+    call locationChangedRoutine(affectedEObject, affectedEObject.eContainer() as Uncertainty)
+}
+
+routine locationChangedRoutine(uncertaintyModel::UncertaintyLocation location, uncertaintyModel::Uncertainty sourceUncertainty) {
+    match {
+        val uncertaintiesList = retrieve many uncertaintyModel::Uncertainty corresponding to sourceUncertainty
+    }
+    update {
+        // Update all corresponding uncertainties with the new values from the sourceUncertainty
+        for (correspondingUncertainty : uncertaintiesList) {
+            correspondingUncertainty.getUncertaintyLocation().setSpecification(location.getSpecification());
+            correspondingUncertainty.getUncertaintyLocation().setLocation(location.getLocation());
+        }
+    }
+}
+
+
+

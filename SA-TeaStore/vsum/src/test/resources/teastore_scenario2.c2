@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c2:C2Repository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
+  xmlns:c2="http://vitruv.tools/c2">
+  <references name="Customer-WebUI" reference1="//@container.0" origin="//@persons.0" />
+  <references name="WebUi-RecommenderService" reference1="//@container.1" origin="//@container.0" />
+  <references name="WebUi-ImageProvider" reference1="//@container.2" origin="//@container.0" />
+  <references name="WebUI-PersistenceService" reference1="//@container.9" origin="//@container.0" />
+  <references name="WebUI-AuthService" reference1="//@container.3" origin="//@container.0" />
+  <references name="AuthService-ExternalAuthProvider" reference1="//@container.4"
+    origin="//@container.3" />
+  <references name="PersistenceService-Database" reference1="//@container.6" origin="//@container.9" />
+  <references name="PersmissionMiddleware-PersitenceService" reference1="//@container.9"
+    origin="//@container.5" />
+  <references name="PermissionService-AuthService" reference1="//@container.3"
+    origin="//@container.5" />
+  <references name="PersistenceService-Cache" reference1="//@container.7" origin="//@container.9" />
+  <references name="AuthService-Cache" reference1="//@container.7" origin="//@container.3" />
+  <references name="BackendUI-PermissionMiddleware" reference1="//@container.5"
+    origin="//@container.8" />
+  <references name="BackendUI-PersistenceService" reference1="//@container.9"
+    origin="//@container.8" />
+  <references name="BackendUI-ImageProvider" reference1="//@container.2" origin="//@container.8" />
+  <references name="BackendUI-AuthService" reference1="//@container.3" origin="//@container.8" />
+  <references name="Storeman-BackendUI" reference1="//@container.8" origin="//@persons.1" />
+  <references name="DataManager-BackendUI" reference1="//@container.8" origin="//@persons.2" />
+  <references name="Accountant-BackendUI" reference1="//@container.8" origin="//@persons.2" />
+  <container name="WebUi" description="WebUI for customers to buy tea" />
+  <container name="RecommenderService" description="Recomments tea products to users" />
+  <container name="ImageProvider" description="Provides Product images to WebUI and BackendUI" />
+  <container name="AuthService" description="Manages authentication and user management." />
+  <container name="ExternalAuthProvider" description="Authentication provider e.g., Keycloak" />
+  <container name="PermissionMiddleware"
+    description="Scenario 2: Permission middleware that decides if requests are allowed" />
+  <container name="Database" description="Database that stores teastore's data" />
+  <container name="Cache" description="Cache to store Auth tokens (and scenario 1 product data)" />
+  <container name="BackendUI" description="Backend for employees to manage the teastore" />
+  <container name="PersistenceService" description="Persists data in the database." />
+  <persons name="Customer" description="Customer that buys tea" />
+  <persons name="Storeman" description="Fulfills orders." />
+  <persons name="Data-Manager" description="Maintains tea-product data." />
+  <persons name="Accountant" description="Manages invoices and payment reminder" />
+</c2:C2Repository>
