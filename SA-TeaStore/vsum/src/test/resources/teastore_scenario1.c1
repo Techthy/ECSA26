@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<c1:C1Repository xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:c1="http://vitruv.tools/c1">
-  <softwareSystems name="TeaStore" description="Onlineshop for Tea"/>
-  <softwareSystems name="Auth Provider" description="External Auth Provider"/>
-  <persons name="Customer" description="Customer who buys tea"/>
-  <references name="Customer-Teastore" description="visits page" reference1="//@persons.0" reference2="//@softwareSystems.0"/>
-  <references name="Customer-AuthProvider" description="Log in" reference1="//@persons.0" reference2="//@references.1"/>
-  <references name="Teastore-AuthProvider" description="Redirects to Auth Provider" reference1="//@softwareSystems.0" reference2="//@softwareSystems.1"/>
-</c1:C1Repository>
